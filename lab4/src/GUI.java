@@ -4,7 +4,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.lang.*;
-import java.sql.SQLOutput;
 
 public class GUI {
     private JTextField AktualnaPozycjaXText;
@@ -49,69 +48,33 @@ public class GUI {
  //   private int licznik = 0;
     private  static Samochod samochod;
     static Samochod samochodik[] = new  Samochod[100];
-/*
-    Sprzeglo clutch1 = new Sprzeglo("CLUTCH1",12,1000);
-    SkrzyniaBiegow gearbox1 = new SkrzyniaBiegow("GEARBOX1",221,3232,6,clutch1);
-    Silnik engine1 = new Silnik("ENGINE1",400,2123);
-   // Samochod samochod1 = new Samochod("212EB", "BMW", 212,engine1,gearbox1);
-    Sprzeglo clutch2 = new Sprzeglo("clutch2",31,2122);
-    SkrzyniaBiegow gearbox2 = new SkrzyniaBiegow("gearbox2",242,2143,5,clutch2);
-    Silnik engine2= new Silnik("engine2",324,4232);
-   // Samochod samochod2 = new Samochod("DAS74","AUDI",324,engine2,gearbox2);
-*/
-   // public void dodajSamochod(String rejestracja, String marka, int predkosc, Silnik s, SkrzyniaBiegow sk)
- //   {
-  //      samochodik[licznik] = new Samochod(rejestracja,marka,predkosc,s,sk);
-  //  }
 
     public final void sprawdz()
     {
+        try{
         for(Samochod x:samochodik) {
 
             if (smaochodcomboBox1.getSelectedItem().toString().equals(x.getModel()))
                 samochod= x;
-        }
+
+        }}
+        catch(Exception e){}
     }
 
-
-/*    public void odswiez(){
-
-        samochodPredkosc.setText(Double.toString(samochod.getAktPredkosc()));
-        samochodNazwa.setText((samochod.getModel()));
-        samochodRej.setText(samochod.getNrRejest());
-        silnikNazwa.setText(samochod.getSilnik().getNazwa());
-        silnikObroty.setText(Double.toString(samochod.getSilnik().getObroty()));
-        AktualnaPozycjaYTeXt.setText(""+0);
-        AktualnaPozycjaXText.setText(""+0);
-        sbNazwa.setText(samochod.getSkrzynia().getNazwa());
-        sbAktualnyBieg.setText(Double.toString(samochod.getSkrzynia().getAktBieg()));
-        sbAktualnePrzelozenie.setText(Double.toString(samochod.getSkrzynia().getAktPrzelozenie()));
-        kursor.setLocation((int)samochod.getAktPozycja().getX(),(int)samochod.getAktPozycja().getY());
-        for (Samochod x:samochodik) {
-            smaochodcomboBox1.addItem(x.getModel());
-        }
-}*/
-
      public GUI() {
-        /* Sprzeglo clutch1 = new Sprzeglo("CLUTCH1",12,1000);
+
+         Sprzeglo clutch1 = new Sprzeglo("CLUTCH1",12,1000);
          SkrzyniaBiegow gearbox1 = new SkrzyniaBiegow("GEARBOX1",221,3232,6,clutch1);
          Silnik engine1 = new Silnik("ENGINE1",400,2123);
          samochodik[0] = new Samochod("212EB", "BMW", 212,engine1,gearbox1);
-      //   samochod = samochodik[0];
+         samochod = samochodik[0];
          Sprzeglo clutch2 = new Sprzeglo("clutch2",31,2122);
          SkrzyniaBiegow gearbox2 = new SkrzyniaBiegow("gearbox2",242,2143,5,clutch2);
          Silnik engine2= new Silnik("engine2",324,4232);
          samochodik[1] = new Samochod("DAS74","A6UDI",324,engine2,gearbox2);
-*/
+
         timer.start();
 
-        smaochodcomboBox1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                sprawdz();
-
-            }
-        });
         włączButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -166,13 +129,15 @@ public class GUI {
         dodajButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-
+              y();
             }
         });
         usuńButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-
+                if(smaochodcomboBox1.getItemCount()>0) {
+                    smaochodcomboBox1.removeItemAt(smaochodcomboBox1.getItemCount() - 1);
+                }
             }
         });
         smaochodcomboBox1.addActionListener(new ActionListener() {
@@ -191,7 +156,7 @@ public class GUI {
                 samochodPredkosc.setText(Double.toString(samochod.getAktPredkosc()));
             }
         });
-        //odswiez();
+
 
 
         mapa.addMouseListener(new MouseAdapter() {
@@ -204,18 +169,34 @@ public class GUI {
 
             }
         });
+
     }
     Timer timer = new Timer (100, new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent evt) {
             odswiez();
+
         }
     });
+    public void x()
+    {
+        for(int i =0;i<samochodik.length;i++) {
+            if (samochodik[i] instanceof Samochod) {
 
+                smaochodcomboBox1.addItem(samochodik[i].getModel());
 
+            }
+        }
+    }
+    public void y(){
+
+     if(samochodik[smaochodcomboBox1.getItemCount()]instanceof Samochod)
+        {
+            smaochodcomboBox1.addItem(samochodik[smaochodcomboBox1.getItemCount()].getModel());
+        }
+    }
 
      public void odswiez(){
-
         samochodPredkosc.setText(Double.toString(samochod.getAktPredkosc()));
         samochodNazwa.setText((samochod.getModel()));
         samochodRej.setText(samochod.getNrRejest());
@@ -226,7 +207,6 @@ public class GUI {
         sbNazwa.setText(samochod.getSkrzynia().getNazwa());
         sbAktualnyBieg.setText(Double.toString(samochod.getSkrzynia().getAktBieg()));
         sbAktualnePrzelozenie.setText(Double.toString(samochod.getSkrzynia().getAktPrzelozenie()));
-
     }
     public static void main(String[] args) {
         JFrame frame = new JFrame("GUI");
@@ -234,31 +214,6 @@ public class GUI {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
-
-      //  Sprzeglo clutch1 = new Sprzeglo("CLUTCH1",12,1000);
-        //SkrzyniaBiegow gearbox1 = new SkrzyniaBiegow("GEARBOX1",221,3232,6,clutch1);
-       // Silnik engine1 = new Silnik("ENGINE1",400,2123);
-      //  samochodik[0] = new Samochod("212EB", "BMW", 212,engine1,gearbox1);
-
-     //  Sprzeglo clutch2 = new Sprzeglo("clutch2",31,2122);
-      // SkrzyniaBiegow gearbox2 = new SkrzyniaBiegow("gearbox2",242,2143,5,clutch2);
-      //  Silnik engine2= new Silnik("engine2",324,4232);
-      // samochodik[1] = new Samochod("DAS74","A6UDI",324,engine2,gearbox2);
-      //  samochod = samochodik[0];
-
-        Sprzeglo clutch1 = new Sprzeglo("CLUTCH1",12,1000);
-        SkrzyniaBiegow gearbox1 = new SkrzyniaBiegow("GEARBOX1",221,3232,6,clutch1);
-        Silnik engine1 = new Silnik("ENGINE1",400,2123);
-        samochodik[0] = new Samochod("212EB", "BMW", 212,engine1,gearbox1);
-        samochod = samochodik[0];
-        Sprzeglo clutch2 = new Sprzeglo("clutch2",31,2122);
-        SkrzyniaBiegow gearbox2 = new SkrzyniaBiegow("gearbox2",242,2143,5,clutch2);
-        Silnik engine2= new Silnik("engine2",324,4232);
-        samochodik[1] = new Samochod("DAS74","A6UDI",324,engine2,gearbox2);
-
-
     }
-
-
 }
 
